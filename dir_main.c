@@ -35,14 +35,15 @@ int main() {
 
   printf("Directories:\n");
   rewinddir(d);
+  entry = readdir(d);
   while (entry != NULL){
     if (entry->d_type == DT_DIR){
-      printf("HIIIIIIIII\n");
       printf("\t%s\n", entry->d_name);
     }
     entry = readdir(d);
   }
   rewinddir(d);
+  entry = readdir(d);
   printf("Regular files:\n");
   while (entry != NULL){
     if (entry->d_type == DT_REG){
