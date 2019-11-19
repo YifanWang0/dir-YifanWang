@@ -34,9 +34,9 @@ int main(int argc, char *argv[]) {
         struct stat file_stats;
         char directory[1000];
         strcpy(directory, cwd);
-        strcpy(directory, "/");
-        strcpy(directory, entry->d_name);
-        if (stat(cwd, &file_stats) == -1){
+        strcat(directory, "/");
+        strcat(directory, entry->d_name);
+        if (stat(directory, &file_stats) == -1){
             printf("errno: %s\n", strerror(errno));
             return errno;
         }
