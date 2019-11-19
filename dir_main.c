@@ -11,28 +11,32 @@
 
 
 int main(int argc, char *argv[]) {
-  DIR *d;
+  char cwd[1000];
   if (argc > 1) {
-    d = opendir(argv[1]);
+    strcpy(cwd, argv[1]);
   } else{
     printf("Enter a directory: \n");
-    char buffer[1000];
-    fgets(buffer, 1000, stdin);
-    buffer[strlen(buffer)-1]= 0;
-    d = opendir(buffer);
+    fgets(cwd, 1000, stdin);
+    cwd[strlen(cwd)-1]= 0;
   }
 
+  DIR *d;
+  d = opendir(cwd);
   if (d == NULL){
     printf("%s\n", strerror(errno));
     return 0;
   }
 
-  printf("Statistics for directory: .\n");
+  printf("Statistics for directory:\n");
   struct dirent *entry = readdir(d);
   int size = 0;
   while (entry != NULL){
     struct stat file_stats;
-    if (stat(entry->d_name, &file_stats) == -1){
+    char directory[1000];
+    strcpy(directory, cwd);
+    strcpy(directory, "/");
+    strcpy(directory, entry->d_name);
+    if (stat(directory, &file_stats) == -1){
       printf("%s\n", strerror(errno));
       return 0;
     }
