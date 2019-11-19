@@ -30,19 +30,20 @@ int main(int argc, char *argv[]) {
     printf("Statistics for directory:\n");
     struct dirent *entry = readdir(d);
     int size = 0;
-    while (entry != NULL){
+    while (entry != NULL) {
         struct stat file_stats;
         char directory[1000];
         strcpy(directory, cwd);
         strcpy(directory, "/");
         strcpy(directory, entry->d_name);
-        if (stat(directory, &file_stats) == -1){
-            printf("%s\n", strerror(errno));
+        if (stat(cwd, &file_stats) == -1){
+            printf("errno: %s\n", strerror(errno));
             return errno;
         }
         size += file_stats.st_size;
         entry = readdir(d);
     }
+
     printf("Total Directory Size: %d Bytes\n", size);
 
     printf("Directories:\n");
