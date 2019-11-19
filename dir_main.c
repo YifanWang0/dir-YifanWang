@@ -10,10 +10,18 @@
 #include <sys/types.h>
 
 
-int main() {
-
+int main(int argc, char *argv[]) {
   DIR *d;
-  d = opendir(".");
+  if (argc > 1) {
+    d = opendir(argv[1]);
+  } else{
+    printf("Enter a directory: \n");
+    char buffer[1000];
+    fgets(buffer, 1000, stdin);
+    buffer[strlen(buffer)-1]= 0;
+    d = opendir(buffer);
+  }
+
   if (d == NULL){
     printf("%s\n", strerror(errno));
     return 0;
@@ -52,5 +60,6 @@ int main() {
     entry = readdir(d);
   }
 
+  closedir(d);
   return 0;
 }
